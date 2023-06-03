@@ -11,20 +11,18 @@ public class Main {
 			StringTokenizer st = new StringTokenizer(br.readLine());			
 			int n = Integer.parseInt(st.nextToken());
 			int m = Integer.parseInt(st.nextToken());
-			String[] s = new String[n];
+			
+			HashSet<String> s = new HashSet<>();
+	
 			for(int i =0; i<n; i++) {
-				s[i] = br.readLine();
+				s.add(br.readLine());
 			}
 			
 			int cnt = 0;
 			for(int i=0; i<m; i++) {
-				String check = br.readLine();
-				for(int j=0; j<n; j++) {
-					if(check.equals(s[j])) {
-						cnt++;
-					}
+				if(s.contains(br.readLine())) {
+					cnt++;
 				}
-				
 			}
 			
 			bw.write(cnt+"");
