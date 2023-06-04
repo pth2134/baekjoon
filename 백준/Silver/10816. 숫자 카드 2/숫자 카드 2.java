@@ -15,10 +15,7 @@ public class Main {
 		
 		for(int i =0; i<n; i++) {
 			int key = Integer.parseInt(st.nextToken());
-			if(card.containsKey(key)) {
-				card.put(key, card.get(key)+1);
-			}
-			else card.put(key, 1);
+			card.put(key, card.getOrDefault(key,0)+1);
 		}
 		
 		int m = Integer.parseInt(br.readLine());
@@ -26,20 +23,11 @@ public class Main {
 		
 		for(int i =0; i<m; i++) {
 			int key = Integer.parseInt(st.nextToken());
-			int nu = isInteger(card, key);
+			int nu = card.getOrDefault(key,0);
 			bw.write(nu+" ");
 		}
 		br.close();
 		bw.flush();
 		bw.close();
-	}
-
-	public static int isInteger(HashMap<Integer , Integer> card, int key) {
-		try {
-			return card.get(key);
-		}
-		catch(NullPointerException e){
-			return 0;
-		}
 	}
 }
