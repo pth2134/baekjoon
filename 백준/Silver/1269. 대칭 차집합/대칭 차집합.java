@@ -17,16 +17,14 @@ public class Main {
 			a.put(Integer.parseInt(st.nextToken()), true);
 		}
 		st =  new StringTokenizer(br.readLine());
+		int duplicate = 0;
 		for(int i =0; i<m; i++) {
 			int key = Integer.parseInt(st.nextToken());
-			boolean check = a.getOrDefault(key, false);
-			if(check) {
-				a.remove(key);
-			}else {
-				a.put(key, true);
-				}
+			if(a.containsKey(key)) {
+				duplicate++;
+			}
 		}
-		bw.write(a.size()+"");
+		bw.write(n+m-2*duplicate+"");
 		
 		br.close();
 		bw.flush();
