@@ -5,7 +5,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder str = new StringBuilder();
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st;
 		
 		int n = Integer.parseInt(br.readLine());
@@ -22,26 +22,26 @@ public class Main {
 					break;
 				case "pop":
 					if(que.isEmpty()) {
-						str.append(-1+"\n");
-					} else str.append(que.poll()+"\n");
+						bw.write(-1+"\n");
+					} else bw.write(que.poll()+"\n");
 					break;
 				case "size":
-					str.append(que.size()+"\n");
+					bw.write(que.size()+"\n");
 					break;
 				case "empty":
 					if(que.isEmpty()) {
-						str.append(1+"\n");
-					} else str.append(0+"\n");
+						bw.write(1+"\n");
+					} else bw.write(0+"\n");
 					break;
 				case "front":
 					if(que.isEmpty()) {
-						str.append(-1+"\n");
-					} else str.append(que.peek()+"\n");
+						bw.write(-1+"\n");
+					} else bw.write(que.peek()+"\n");
 					break;
 				case "back":
 					if(que.isEmpty()) {
-						str.append(-1+"\n");
-					} else str.append(last+"\n");
+						bw.write(-1+"\n");
+					} else bw.write(last+"\n");
 					break;
 				default:
 					break;
@@ -49,7 +49,7 @@ public class Main {
 			
 		}
 		
-		System.out.println(str);
+		bw.flush();
 		
 	}
 }
