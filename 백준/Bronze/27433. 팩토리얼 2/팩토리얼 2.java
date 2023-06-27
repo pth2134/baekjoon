@@ -1,15 +1,12 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
 	public static long fac(long n) {
-		long result = n;
 		if(n>1) {
-			result *=fac(n-1);
+			return n*fac(n-1);
 		} else {
 			return 1;
 		}
-		return result;
 	}
 	
 	public static void main(String[] args) throws IOException{
