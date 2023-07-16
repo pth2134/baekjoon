@@ -77,12 +77,12 @@ public class Main {
 		if(n!=1) cnt*=2;
 		
 		if(n%2 ==1) {
+            //n이 홀수일 때, 퀸이 가장 윗칸 가운데에 있을 경우를 따로 더해줌
 			sign(0,r,check);
 			signX(0,r,check);
 			queen(1,check);
 			unSign(0,r,check);
-			unSignX(0,r,check);
-			//r번쨰 인덱스, x2			
+			unSignX(0,r,check);	
 		}
 		
 		bw.write(cnt+"");
