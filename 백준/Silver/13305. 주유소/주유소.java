@@ -24,7 +24,7 @@ class Main{
 			for(int i =1; i<n-1; i++) {
 				price = Integer.parseInt(st.nextToken());
 				min = min > price ? price : min;
-				cost += min*distance[i+1];
+				cost += (long)min*distance[i+1];
 			}
 			
 			bw.write(cost+"");
