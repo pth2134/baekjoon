@@ -3,7 +3,6 @@ import java.io.*;
 class Main{
 	static int[][] screen;
 	static int[][] dp;
-	static boolean clear = false;
 	static StringBuilder str = new StringBuilder();
 	static void check(int x, int y, int n, int size) {
 		if(n==1) {
@@ -19,10 +18,12 @@ class Main{
 			str.append("(");
 			int next = n/2;
 			int nextS = size/4;
+			int x1 = x+next;
+			int y1 = y+next;
 			check(x,y,next,nextS);
-			check(x+next,y,next,nextS);
-			check(x,y+next,next,nextS);
-			checkLast(x+next,y+next,next,nextS);
+			check(x1,y,next,nextS);
+			check(x,y1,next,nextS);
+			checkLast(x1,y1,next,nextS);
 		}
 	}
 	
@@ -41,10 +42,12 @@ class Main{
 			str.append("(");
 			int next = n/2;
 			int nextS = size/4;
+			int x1 = x+next;
+			int y1 = y+next;
 			check(x,y,next,nextS);
-			check(x+next,y,next,nextS);
-			check(x,y+next,next,nextS);
-			checkLast(x+next,y+next,next,nextS);
+			check(x1,y,next,nextS);
+			check(x,y1,next,nextS);
+			checkLast(x1,y1,next,nextS);
 		}
 		str.append(")");
 	}
