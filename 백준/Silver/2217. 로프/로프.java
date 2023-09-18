@@ -7,15 +7,17 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		int n = Integer.parseInt(br.readLine());
-		Integer[] rope = new Integer[n];
-		for (int i = 0; i < n; i++) {
-			rope[i] = Integer.parseInt(br.readLine());
+		int[] rope = new int[100001];
+		for (int i = 1; i <= n; i++) {
+			rope[Integer.parseInt(br.readLine())]++;
 		}
-		Arrays.sort(rope,(o1,o2)->o2-o1);
+		int sum = 0;
 		int max = 0;
-		for (int i = 0; i <n; i++) {
-			int f = rope[i]*(i+1);
-			max = max>f? max:f;
+		int cnt = 0;
+		for (int i = 100000; i > 0; i--) {
+			cnt += rope[i];
+			sum = i*cnt;
+			max = max>sum? max:sum;
 		}
 		System.out.println(max);
 	}
