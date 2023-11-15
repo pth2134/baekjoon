@@ -1,37 +1,35 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
 
-        for (int tc = 1; tc <= T; tc++) {
-            int k = Integer.parseInt(br.readLine());
-            TreeMap<Integer, Integer> que = new TreeMap<>();
-
-            for (int i = 0; i < k; i++) {
-                String[] input = br.readLine().split(" ");
-                char ch = input[0].charAt(0);
-                int n = Integer.parseInt(input[1]);
-
-                if (ch == 'I') {
-                    que.put(n, que.getOrDefault(n, 0) + 1);
+        int t = Integer.parseInt(br.readLine());
+        for (int i = 0; i < t; i++) {
+            int n = Integer.parseInt(br.readLine());
+            TreeMap<Long, Integer> map = new TreeMap<>();
+            for (int j = 0; j < n; j++) {
+                st = new StringTokenizer(br.readLine());
+                String cmd = st.nextToken();
+                long num = Long.parseLong(st.nextToken());
+                if(cmd.equals("I")){
+                    map.put(num, map.getOrDefault(num,0)+1);
                 } else {
-                    if (que.size() == 0)
-                        continue;
-
-                    int num = n == 1 ? que.lastKey() : que.firstKey();
-                    if (que.put(num, que.get(num) - 1) == 1)
-                        que.remove(num);
+                    if(map.size()==0) continue;
+                    long key = num==1? map.lastKey() : map.firstKey();
+                    int val = map.get(key);
+                    if(val<=1) map.remove(key);
+                    else map.put(key,val-1);
                 }
             }
-
-            System.out.println(que.size() == 0 ? "EMPTY" : que.lastKey() + " " + que.firstKey());
+            if(map.size()==0) sb.append("EMPTY").append("\n");
+            else sb.append(map.lastKey()).append(" ")
+                    .append(map.firstKey()).append("\n");
         }
-
+        System.out.println(sb);
     }
-
 }
