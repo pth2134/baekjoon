@@ -8,7 +8,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         int b = Integer.parseInt(st.nextToken());
-        int[] height = new int[n * m];
+        int[] height = new int[257];
         int last = n * m - 1;
         int min = Integer.MAX_VALUE;
         int max = 0;
@@ -19,25 +19,27 @@ public class Main {
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < m; j++) {
-                height[k] = Integer.parseInt(st.nextToken());
-                if (height[k] > max) max = height[k];
-                if (height[k] < min) min = height[k];
+                int input = Integer.parseInt(st.nextToken());
+                height[input]++;
+                max = Math.max(max,input);
+                min = Math.min(min,input);
                 k++;
             }
         }
+
         for (int i = min; i <= max; i++) {
-            int c = b;
             int time = 0;
+            int c = b;
             int gap = 0;
-            for (int j = 0; j <= last; j++) {
-                if (height[j] < i) {
-                    gap = i - height[j];
+            for (int j = min; j <= max; j++) {
+                if(j<i){
+                    gap = (i-j)*height[j];
+                    time+= gap;
                     c -= gap;
-                    time += gap;
-                } else {
-                    gap = height[j] - i;
+                } else{
+                    gap = (j-i)*height[j];
+                    time+= gap*2;
                     c += gap;
-                    time += gap * 2;
                 }
             }
             if(c<0) break;
