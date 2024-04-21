@@ -1,85 +1,102 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int n;
-    static int[][] graph;
-    static boolean[][] visit;
-    static boolean[][] visit_for_land;
-    static Queue<Integer[]> que_for_point = new LinkedList<>();
-    static Queue<Integer[]> que_for_bridge = new LinkedList<>();
-    static Queue<Integer[]> que = new LinkedList<>();
-    static int[] r_move = {-1, 1, 0, 0};
-    static int[] c_move = {0, 0, -1, 1};
-    static int min = Integer.MAX_VALUE;
+	static int n;
+	static boolean[][] isLand;
+	static boolean[][] visited1;
+	static int[][][] visited2;
+	static Queue<Integer[]> que_forLand = new LinkedList<>();
+	static Queue<Integer[]> que_forBridge = new LinkedList<>();
+	static int[] dy = {1, -1, 0, 0};
+	static int[] dx = {0, 0, -1, 1};
 
-    public static void bfs_for_point(int k) {
-        while (!que_for_point.isEmpty()) {
-            Integer[] poll = que_for_point.poll();
-            for (int j = 0; j < 4; j++) {
-                int row = poll[0] + r_move[j];
-                int col = poll[1] + c_move[j];
-                if (row >= 0 && row < n && col >= 0 && col < n && !visit_for_land[row][col]) {
-                    visit_for_land[row][col] = true;
-                    if (graph[row][col] == 1) {
-                        que_for_point.add(new Integer[]{row, col});
-                        graph[row][col] = k;
-                    } else que_for_bridge.add(new Integer[]{row, col, 1});
-                }
-            }
-        }
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		n = Integer.parseInt(br.readLine());
+		isLand = new boolean[n][n];
+		visited1 = new boolean[n][n];
+		visited2 = new int[n][n][2]; //[0] 거리 [1] 출발 섬 번호
 
-    public static void bfs_for_bridge(int k) {
-        int size = que_for_bridge.size();
-        for (int i = 0; i < size; i++) {
-            visit = new boolean[n][n];
-            que.add(que_for_bridge.poll());
-            while (!que.isEmpty()) {
-                Integer[] rc = que.poll();
-                int cnt = rc[2] + 1;
-                for (int j = 0; j < 4; j++) {
-                    int row = rc[0] + r_move[j];
-                    int col = rc[1] + c_move[j];
-                    if (row >= 0 && row < n && col >= 0 && col < n && !visit[row][col]) {
-                        visit[row][col] = true;
-                        if (graph[row][col] == 0) que.add(new Integer[]{row, col, cnt});
-                        else if (graph[row][col] != k) {
-                            min = Math.min(min, rc[2]);
-                            que.clear();
-                        }
-                    }
-                }
-            }
-        }
-    }
+		int landCnt = 0;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-        graph = new int[n][n];
-        visit = new boolean[n][n];
-        visit_for_land = new boolean[n][n];
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < n; j++) {
+				isLand[i][j] = st.nextToken().equals("1");
+			}
+		}
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                graph[i][j] = br.read() - '0';
-                br.read();
-            }
-        }
-        int k = 2;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (!visit_for_land[i][j] && graph[i][j] == 1) {
-                    graph[i][j] = k;
-                    que_for_point.add(new Integer[]{i, j});
-                    bfs_for_point(k);
-                    bfs_for_bridge(k);
-                    k++;
-                }
-            }
-        }
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (isLand[i][j] && !visited1[i][j]) {
+					landCnt++;
+					visited2[i][j][1] = landCnt;
+					que_forLand.add(new Integer[] {i, j});
+					findLand(landCnt);
+				}
 
-        System.out.println(min);
-    }
+			}
+		}
+		int min = Integer.MAX_VALUE;
+
+		while (!que_forBridge.isEmpty()) {
+			Integer[] poll = que_forBridge.poll();
+			int d = visited2[poll[0]][poll[1]][0] + 1;
+			int landNum = visited2[poll[0]][poll[1]][1];
+			for (int i = 0; i < 4; i++) {
+				int y = poll[0] + dy[i];
+				int x = poll[1] + dx[i];
+				if (y >= 0 && y < n && x >= 0 && x < n) {
+					if (visited2[y][x][0] != 0) {
+						if (visited2[y][x][1] != landNum) {
+							min = Math.min(min, d + visited2[y][x][0]);
+						}
+					} else {
+						if (isLand[y][x]) {
+							if (visited2[y][x][1] != landNum) {
+								min = Math.min(min, d);
+							}
+						} else {
+							visited2[y][x][0] = d;
+							visited2[y][x][1] = landNum;
+							if (!isLand[y][x])
+								que_forBridge.add(new Integer[] {y, x});
+						}
+					}
+
+				}
+			}
+		}
+
+		System.out.println(min - 1);
+	}
+
+	public static void findLand(int landCnt) {
+		while (!que_forLand.isEmpty()) {
+			Integer[] poll = que_forLand.poll();
+			for (int i = 0; i < 4; i++) {
+				int y = poll[0] + dy[i];
+				int x = poll[1] + dx[i];
+				if (y >= 0 && y < n && x >= 0 && x < n && !visited1[y][x]) {
+					visited1[y][x] = true;
+					if (isLand[y][x]) {
+						que_forLand.add(new Integer[] {y, x});
+						visited2[y][x][1] = landCnt;
+					} else {
+						que_forBridge.add(new Integer[] {y, x});
+						visited2[y][x][0] = 1;
+						visited2[y][x][1] = landCnt;
+					}
+				}
+			}
+		}
+	}
+
 }
