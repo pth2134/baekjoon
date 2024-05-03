@@ -13,14 +13,14 @@ public class Main {
 			union[i] = i;
 		}
 
-		PriorityQueue<Integer[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
+		PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
 
 		for (int i = 0; i < m; i++) {
 			int from = reader.nextInt();
 			int to = reader.nextInt();
 			int cost = reader.nextInt();
 
-			pq.add(new Integer[] {from, to, cost});
+			pq.add(new int[] {from, to, cost});
 		}
 
 		int cnt = 0;
@@ -28,7 +28,7 @@ public class Main {
 		int max = 0;
 
 		while (cnt < n - 1) {
-			Integer[] poll = pq.poll();
+			int[] poll = pq.poll();
 			int a = unionFind(poll[0]);
 			int b = unionFind(poll[1]);
 
@@ -62,7 +62,8 @@ public class Main {
 		int nextInt() throws Exception {
 			int n = 0;
 			byte c;
-			while ((c = read()) <= 32);
+			while ((c = read()) <= 32)
+				;
 			boolean neg = c == '-' ? true : false;
 			if (neg)
 				c = read();
