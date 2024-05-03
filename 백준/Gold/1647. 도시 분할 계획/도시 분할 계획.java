@@ -56,7 +56,7 @@ public class Main {
 
 	public static int unionFind(int num) {
 		if (union[num] != num)
-			return unionFind(union[num]);
+			return union[num] = unionFind(union[num]);
 		return num;
 	}
 
