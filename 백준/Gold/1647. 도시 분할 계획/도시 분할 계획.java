@@ -1,17 +1,12 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 public class Main {
 	static int[] union;
 
 	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder sb = new StringBuilder();
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
+		Reader reader = new Reader();
+		int n = reader.nextInt();
+		int m = reader.nextInt();
 		union = new int[n + 1];
 
 		for (int i = 1; i <= n; i++) {
@@ -21,10 +16,9 @@ public class Main {
 		PriorityQueue<Integer[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
 
 		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine());
-			int from = Integer.parseInt(st.nextToken());
-			int to = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
+			int from = reader.nextInt();
+			int to = reader.nextInt();
+			int cost = reader.nextInt();
 
 			pq.add(new Integer[] {from, to, cost});
 		}
@@ -60,4 +54,35 @@ public class Main {
 		return num;
 	}
 
+	static class Reader {
+		final int SIZE = 1 << 15;
+		byte[] buffer = new byte[SIZE];
+		int index, size;
+
+		int nextInt() throws Exception {
+			int n = 0;
+			byte c;
+			while ((c = read()) <= 32);
+			boolean neg = c == '-' ? true : false;
+			if (neg)
+				c = read();
+			do
+				n = (n << 3) + (n << 1) + (c & 15);
+			while (isNumber(c = read()));
+			return neg ? -n : n;
+		}
+
+		boolean isNumber(byte c) {
+			return 47 < c && c < 58;
+		}
+
+		byte read() throws Exception {
+			if (index == size) {
+				size = System.in.read(buffer, index = 0, SIZE);
+				if (size < 0)
+					buffer[0] = -1;
+			}
+			return buffer[index++];
+		}
+	}
 }
