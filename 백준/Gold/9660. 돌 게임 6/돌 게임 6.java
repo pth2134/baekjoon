@@ -5,15 +5,9 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Reader reader = new Reader();
 		long n = reader.nextLong();
-		boolean[] skWin_until_6 = {false, true, false, true, true, true, true};
 		boolean[] skWin = {false, true, false, true, true, true, true};
 
-		if (n <= 6) {
-			System.out.println(skWin_until_6[(int)n] ? "SK" : "CY");
-		} else {
-			System.out.println(skWin[(int) (n % 7)] ? "SK" : "CY");
-		}
-
+		System.out.println(skWin[(int) (n % 7)] ? "SK" : "CY");
 	}
 
 	static class Reader {
