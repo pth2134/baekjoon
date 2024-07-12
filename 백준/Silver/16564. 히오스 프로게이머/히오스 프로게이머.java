@@ -12,9 +12,9 @@ public class Main {
 			pq.add(reader.nextLong());
 		}
 
-		long T = pq.poll();
-		long cnt = 1;
-
+		long T = pq.poll(); //최저레벨
+		long cnt = 1; //최저레벨 캐릭터수
+        //최저레벨 캐릭터를 다음으로 낮은 캐릭터의 레벨에 맞추고, 최저레벨 캐릭터가 1명 늘어남
 		while (!pq.isEmpty()) {
 			long level = pq.poll();
 
@@ -36,7 +36,9 @@ public class Main {
 			}
 
 		}
+        
         if (k > 0) {
+            //k가 남았다면 모두 같은 레벨이기 때문에 동일하게 나눠줘야함
 			T += k / n;
 		}
 
