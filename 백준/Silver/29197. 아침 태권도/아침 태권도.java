@@ -22,7 +22,7 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
-			int gcd = getGcd(x, y);
+			int gcd = getGcd(x > 0 ? x : -x, y > 0 ? y : -y);
 
 			x /= gcd;
 			y /= gcd;
