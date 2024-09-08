@@ -17,7 +17,7 @@ public class Main {
 			if (map.containsKey(a - 1)) {
 				map.put(a, map.get(a - 1) + 1);
 				map.remove(a - 1);
-			} else {
+			} else if (!map.containsKey(a)) {
 				map.put(a, 1);
 			}
 
