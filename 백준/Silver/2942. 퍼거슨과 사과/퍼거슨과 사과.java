@@ -8,11 +8,23 @@ public class Main {
 		int r = reader.nextInt();
 		int g = reader.nextInt();
 		int gcd = gcd(r, g);
-
-		for (int i = 1; i <= gcd; i++) {
+		int cap = (int)Math.sqrt(gcd);
+		for (int i = 1; i < cap; i++) {
 			if (gcd % i == 0) {
+				int rev = gcd / i;
 				sb.append(i).append(' ').append(r / i).append(' ').append(g / i).append('\n');
+				sb.append(rev).append(' ').append(r / rev).append(' ').append(g / rev).append('\n');
 			}
+		}
+		if (cap * cap == gcd)
+			sb.append(cap).append(' ').append(r / cap).append(' ').append(g / cap).append('\n');
+		else if (cap == 1) {
+			sb.append(1).append(' ').append(r).append(' ').append(g).append('\n');
+			sb.append(gcd).append(' ').append(r / gcd).append(' ').append(g / gcd).append('\n');
+		} else if (gcd % cap == 0) {
+			int rev = gcd / cap;
+			sb.append(cap).append(' ').append(r / cap).append(' ').append(g / cap).append('\n');
+			sb.append(rev).append(' ').append(r / rev).append(' ').append(g / rev).append('\n');
 		}
 		System.out.println(sb);
 	}
