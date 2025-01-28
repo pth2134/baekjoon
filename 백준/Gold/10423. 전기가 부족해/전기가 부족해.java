@@ -26,8 +26,8 @@ public class Main {
 		for (int i = 0; i < k; i++) {
 			int power = reader.nextInt();
 			visited[power] = 1;
-			parent[power] = power;
-			pq.add(new int[] {power, 1, power}); //power로 갈 때 드는 코스트를 1로 설정, 마지막에 빼줘야함
+			parent[power] = -power;
+			pq.add(new int[] {power, 1}); //power로 갈 때 드는 코스트를 1로 설정, 마지막에 빼줘야함
 		}
 
 		for (int i = 0; i < m; i++) {
@@ -41,23 +41,20 @@ public class Main {
 
 		while (!pq.isEmpty()) {
 			int u = pq.peek()[0];
-			int w = pq.peek()[1];
-			int from = pq.poll()[2];
+			int w = pq.poll()[1];
 
 			if (visited[u] != w)
 				continue;
-			parent[u] = parent[from];
+			parent[u] = -parent[u]; // union 고정
 
 			for (int[] edge : nodes[u]) {
 				int v = edge[0];
-				if (v == from)
-					continue;
-
 				int w1 = edge[1];
 				if (parent[v] == parent[u] || visited[v] != 0 && visited[v] <= w1)
 					continue;
 				visited[v] = w1;
-				pq.add(new int[] {v, w1, u});
+				parent[v] = -parent[u]; //임시로 union 설정
+				pq.add(new int[] {v, w1});
 			}
 		}
 
