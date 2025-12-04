@@ -1,50 +1,24 @@
-
+import java.util.HashMap;
 class Solution {
     public String solution(String[] survey, int[] choices) {
-        int rt = 0;
-        int cf = 0;
-        int jm = 0;
-        int an = 0;
-        
-        for (int i = 0; i < survey.length; i++) {
-            switch (survey[i]) {
-                case "RT":
-                    rt += choices[i] - 4;
-                    break;
-                case "TR":
-                    rt -= choices[i] - 4;
-                    break;
-                case "CF":
-                    cf += choices[i] - 4;
-                    break;
-                case "FC":
-                    cf -= choices[i] - 4;
-                    break;
-                case "JM":
-                    jm += choices[i] - 4;
-                    break;
-                case "MJ":
-                    jm -= choices[i] - 4;
-                    break;
-                case "AN":
-                    an += choices[i] - 4;
-                    break;
-                case "NA":
-                    an -= choices[i] - 4;
-                    break;
-            }
+        char[][] mbti = {{'R','T'}, {'C','F'}, {'J','M'}, {'A','N'}};
+        int[] score = new int[4];
+        HashMap<Character, int[]> map = new HashMap<>();
+
+        for (int i = 0; i < 4; i++) {
+            map.put(mbti[i][0], new int[]{i, -1});
+            map.put(mbti[i][1], new int[]{i, 1});
         }
-        
+
+        for (int i = 0; i < survey.length; i++) {
+            int[] dest = map.get(survey[i].charAt(1));
+            score[dest[0]] += dest[1] * (choices[i] - 4);
+        }
+
         StringBuilder sb = new StringBuilder();
-        if(rt > 0) sb.append('T');
-        else sb.append('R');
-        if(cf > 0) sb.append('F');
-        else sb.append('C');
-        if(jm > 0) sb.append('M');
-        else sb.append('J');
-        if(an > 0) sb.append('N');
-        else sb.append('A');
-        
+        for (int i = 0; i < 4; i++) {
+            sb.append(score[i] > 0 ? mbti[i][1] : mbti[i][0]);
+        }
         return sb.toString();
     }
 }
