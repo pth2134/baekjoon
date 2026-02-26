@@ -1,0 +1,9 @@
+-- 코드를 입력하세요
+SELECT a.NAME, a.COUNT
+from (select name, count(*) as count
+     from animal_ins
+      group by name
+     ) a
+where count > 1
+and name is not null
+order by name
